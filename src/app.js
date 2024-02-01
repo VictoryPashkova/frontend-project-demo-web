@@ -142,6 +142,19 @@ const app = (state) => {
             }
             watchedState.isValid = _.isEmpty(errors);
         })
+        input.addEventListener('click', (e) => {
+          const el = e.target.name;
+          const { value } = e.target;
+          watchedState.data[el] = value;
+          watchedState.uiState.isTouched[el] = true;
+          watchedState.error = [];
+          const getErrors = validate(watchedState.data);
+          const errors = Object.keys(getErrors);
+          if (!_.isEmpty(errors)) {
+            watchedState.error = errors;
+          }
+          watchedState.isValid = _.isEmpty(errors);
+      })
     })
 
     formModal.addEventListener('submit', async (e) => {

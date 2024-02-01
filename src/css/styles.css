@@ -42,6 +42,29 @@ a {
   text-decoration: none;
 }
 
+input[type='search'] {
+  -webkit-appearance: textfield;
+}
+
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+textarea {
+  overflow: auto;
+  vertical-align: top;
+}
+
+textarea:focus,
+input:focus {
+  outline: 0;
+}
+
+input {
+  appearance: none;
+}
+
 .header-main-container {
   width: 100%;
   display: flex;
