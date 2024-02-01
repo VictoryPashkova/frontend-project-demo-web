@@ -1,19 +1,19 @@
 @font-face {
   font-weight: 400;
   font-family: "Outfit";
-  src: url("./fonts/Outfit-Regular.woff2");
+  src: url("../fonts/Outfit-Regular.woff2");
 }
 
 @font-face {
   font-weight: 700;
   font-family: "Outfit";
-  src: url("./fonts/Outfit-Bold.woff2");
+  src: url("../fonts/Outfit-Bold.woff2");
 }
 
 @font-face {
   font-weight: 300;
   font-family: "Outfit";
-  src: url("./fonts/Outfit-Light.woff2");
+  src: url("../fonts/Outfit-Light.woff2");
 }
 
 html {
