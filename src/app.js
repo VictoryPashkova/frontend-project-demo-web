@@ -1,235 +1,247 @@
 import * as yup from 'yup';
 import onChange from 'on-change';
-import _, { before } from 'lodash';
-// import axios from 'axios';
+import _ from 'lodash';
 
 const schema = yup.object().shape({
-    name: yup.string().trim().required('Name is required'),
-    email: yup.string().required('Email is required'),
-    phone: yup.string().required('Phone number is required'),
-    company: yup.string().trim(),
-    website: yup.string().url('Enter a valid URL'),
-  });
+  name: yup.string().trim().required('Name is required'),
+  email: yup.string().required('Email is required'),
+  phone: yup.string().required('Phone number is required'),
+  company: yup.string().trim(),
+  website: yup.string().url('Enter a valid URL'),
+});
 
-  const validate = (fields) => {
-    try {
-      schema.validateSync(fields, { abortEarly: false });
-      return {};
-    } catch (e) {
-      return _.keyBy(e.inner, 'path');
-    }
-  };
+const validate = (fields) => {
+  try {
+    schema.validateSync(fields, { abortEarly: false });
+    return {};
+  } catch (e) {
+    return _.keyBy(e.inner, 'path');
+  }
+};
 
 const app = (state) => {
+  const salesButtons = document.querySelectorAll('.contact__sales-btn');
+  const hamburgerButton = document.querySelector('.header__main-container__hamburger__open-button');
+  const formModal = document.querySelector('.modal__form__contact');
+  const inputs = document.querySelectorAll('.modal__form__contact__input');
+  const modalContainer = document.querySelector('.modal');
+  const modal = document.querySelector('.modal__form');
+  const headerMainContainer = document.querySelector('.header__main-container');
+  const headerMenu = document.querySelector('.header__main-container__header-menu');
+  const mainContent = document.querySelector('main');
+  const footer = document.querySelector('footer');
+  const hamburgerButtonItems = document.querySelectorAll('.header__main-container__hamburger__button__item');
+  const hamburgerButtonItemsClose = document.querySelector('.header__main-container__hamburger__close-button');
+  const hamburgerButtonClose = document.querySelector('.header__main-container__hamburger__close-button');
+  const genFeedBack = document.querySelector('.modal__form__contact__general-feedback');
+  const submitBtn = document.querySelector('.sales-btn--submit');
+  const modalFormContainer = document.querySelector('.modal__form');
+  const modalSuccessContainer = document.querySelector('.modal__success');
+  const imgLoading = document.querySelector('.btn-state');
+  const btnText = document.querySelector('.text-submit');
+  const successBtn = document.querySelector('.modal__success-btn');
 
-    const salesButtons = document.querySelectorAll('.sales-btn');
-    const hamburgerButton = document.querySelector('.hamburger-button');
-    const formModal = document.querySelector('.form-modal');
-    const inputs = document.querySelectorAll('.form-control');
-    const successBtn = document.querySelector('.success-btn');
-    const modalContainer = document.querySelector('.modal-container');
-    const modal = document.querySelector('.modal-form-container')
-    const headerMainContainer = document.querySelector('.header-main-container');
-    const headerMenu = document.querySelector('.header-menu-container');
-    const mainContent = document.querySelector('.main-content');
-    const footer = document.querySelector('.footer');
-    const hamburgerButtonItems = document.querySelectorAll('.header-hamburger-item');
-    const hamburgerButtonItemsClose = document.querySelector('.header-hamburger-item-close');
-    const hamburgerButtonClose = document.querySelector('.hamburger-cls-btn');
+  const data = ['name', 'email', 'phone', 'company', 'website'];
 
-    const data = ['name', 'email', 'phone', 'company', 'website'];
+  const cleanAllFeedBacks = () => {
+    const allInvalidInputs = document.querySelectorAll('.input--invalid');
+    const allFeedBacks = document.querySelectorAll('.feedback--active');
+    allInvalidInputs.forEach((input) => input.classList.remove('input--invalid'));
+    allFeedBacks.forEach((item) => {
+      item.classList.remove('feedback--active');
+      item.classList.add('invalid-feedback--disabled');
+    });
+  };
 
-    const cleanAllFeedBacks = () => {
-      const allInvalidInpurs = document.querySelectorAll('.is-invalid-input');
-      allInvalidInpurs.forEach((input) => input.classList.remove('is-invalid-input'))
-
-      const allFeedBacks = document.querySelectorAll('.active-feedback');
-      allFeedBacks.forEach((item) => {
-        item.classList.remove('active-feedback');
-        item.classList.add('notActive');
-      })
-    }
-
-    const watchedState = onChange(state, (path, value) => {
-      switch (path) {
-        case 'error':
-          cleanAllFeedBacks();
-          value.forEach((item) => {
-            if (state.uiState.isTouched[item] === true) {
-              console.log(true)
-              const invalidInput = document.getElementById(item);
-              const feedback = document.querySelector(`p.${item}`);
-              invalidInput.classList.add('is-invalid-input');
-              feedback.classList.add('active-feedback');
-              feedback.classList.remove('notActive');
-            }
-          })
-        break;
-        case 'isValid':
-            if (value === true) {
-                const submitBtn = document.querySelector('.submit');
-                submitBtn.classList.remove('disabled');
-                const genFeedBack = document.querySelector('.general-feedback');
-                genFeedBack.classList.remove('active-feedback');
-                genFeedBack.classList.add('notActive');
-            } else {
-                const submitBtn = document.querySelector('.submit');
-                submitBtn.classList.add('disabled');
-                const genFeedBack = document.querySelector('.general-feedback');
-                genFeedBack.classList.add('active-feedback');
-                genFeedBack.classList.remove('notActive');
-            }
-        break;
-        case 'processState':
-            if (value === 'filling') {
-                const modalContainer = document.querySelector('.modal-container');
-                const modalFormContainer = document.querySelector('.modal-form-container');
-                modalContainer.classList.remove('disabled-modal');
-                modalFormContainer.classList.remove('disabled-modal');
-            } else if (value === 'submited') {
-                const modalFormContainer = document.querySelector('.modal-form-container');
-                modalFormContainer.classList.add('disabled-modal');
-                const modalSuccessContainer = document.querySelector('.modal-success-container');
-                modalSuccessContainer.classList.remove('disabled-modal');
-            } else if (value === 'initial') {
-                const modalContainer = document.querySelector('.modal-container');
-                const modalSuccessContainer = document.querySelector('.modal-success-container');
-                const modalFormContainer = document.querySelector('.modal-form-container');
-                modalFormContainer.classList.add('disabled-modal');
-                modalContainer.classList.add('disabled-modal');
-                modalSuccessContainer.classList.add('disabled-modal');
-            } else if (value === 'loading') {
-                const btnText = document.querySelector('.submit-text');
-                btnText.classList.add('disabled-img');
-                const img = document.querySelector('.btn-state');
-                img.classList.add('loading');
-                img.classList.remove('disabled-img');
-            }
-        break;
-        case 'menu':
-          if (value === 'active') {
-            headerMenu.classList.remove('disabled-menu');
-            mainContent.classList.add('disabled-menu');
-            footer.classList.add('disabled-menu');
-            hamburgerButtonItems.forEach((item) => {
-              item.classList.add('disabled-menu');
-            })
-            
-              hamburgerButtonItemsClose.classList.remove('disabled-menu');
-          } else if (value === 'disabled') {
-            headerMenu.classList.add('disabled-menu');
-            mainContent.classList.remove('disabled-menu');
-            footer.classList.remove('disabled-menu');
-            hamburgerButtonItems.forEach((item) => {
-              item.classList.remove('disabled-menu');
-            })
-              hamburgerButtonItemsClose.classList.add('disabled-menu');
-          }
+  const renderError = (value) => {
+    cleanAllFeedBacks();
+    value.forEach((item) => {
+      if (state.uiState.isTouched[item] === true) {
+        const invalidInput = document.getElementById(item);
+        const feedback = document.querySelector(`p.${item}`);
+        invalidInput.classList.add('input--invalid');
+        feedback.classList.add('feedback--active');
+        feedback.classList.remove('invalid-feedback--disabled');
+        genFeedBack.classList.add('feedback--active');
+        genFeedBack.classList.remove('invalid-feedback--disabled');
       }
     });
+  };
 
-    inputs.forEach((input) => {
-        input.addEventListener('input', (e) => {
-            const el = e.target.name;
-            const { value } = e.target;
-            watchedState.data[el] = value;
-            watchedState.uiState.isTouched[el] = true;
-            watchedState.error = [];
-            const getErrors = validate(watchedState.data);
-            const errors = Object.keys(getErrors);
-            if (!_.isEmpty(errors)) {
-              watchedState.error = errors;
-            }
-            watchedState.isValid = _.isEmpty(errors);
-        })
-        input.addEventListener('click', (e) => {
-          const el = e.target.name;
-          const { value } = e.target;
-          watchedState.data[el] = value;
-          watchedState.uiState.isTouched[el] = true;
-          watchedState.error = [];
-          const getErrors = validate(watchedState.data);
-          const errors = Object.keys(getErrors);
-          if (!_.isEmpty(errors)) {
-            watchedState.error = errors;
-          }
-          watchedState.isValid = _.isEmpty(errors);
-      })
-    })
+  const renderIsValid = () => {
+    submitBtn.classList.remove('sales-btn--disabled');
+    genFeedBack.classList.remove('feedback--active');
+    genFeedBack.classList.add('invalid-feedback--disabled');
+  };
 
-    formModal.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        watchedState.processState = 'sending';
-        const formData = new FormData(e.target);
-        const dataForSending = [];
-        data.forEach((el) => {
-          const elData = formData.get(el);
-          dataForSending.push(elData);
-        });
-        watchedState.processState = 'loading';
-        formModal.reset();
-     try {
-     // Имитируем отправку данных
-     await new Promise((resolve) => setTimeout(resolve, 5000));
-     watchedState.processState = 'submited';
-     } catch (error) {
-       watchedState.processState = 'failed';
-       console.error(error);
-     }
-        //в реальности было бы что-то такое
-        // try {
-        //   const response = await axios.post(routes.usersPath(), dataForSending);
-        //   if (response.status === 200) {
-        //     watchedState.processState = 'submited';
-        //   } else {
-        //     watchedState.processState = 'failed';
-        //   }
-        // } catch (error) {
-        //   watchedState.processState = 'failed';
-        //   throw error;
-        // }
-      });
+  const renderNotValid = () => {
+    submitBtn.classList.add('sales-btn--disabled');
+    genFeedBack.classList.add('feedback--active');
+    genFeedBack.classList.remove('invalid-feedback--disabled');
+  };
 
-      salesButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-           watchedState.processState = 'filling';
-           document.addEventListener('click', (e) => {
-            const isBtn = e.target.classList.contains('sales-btn');
-            const isBtnText = e.target.classList.contains('btm-text-sales');
-            console.log(!modalContainer.contains(e.target))
-            if (!modal.contains(e.target) && !isBtn && !isBtnText) {
-                watchedState.processState = 'initial';
-                formModal.reset();
-                cleanAllFeedBacks();
-            }
-          });
-        })
-      })
+  const renderModal = () => {
+    modalContainer.classList.remove('modal--disabled');
+    modalFormContainer.classList.remove('modal--disabled');
+  };
 
-      successBtn.addEventListener('click', () => {
-        watchedState.processState = 'initial';
-      })
+  const renderSubmitedForm = () => {
+    modalFormContainer.classList.add('modal--disabled');
+    modalSuccessContainer.classList.remove('modal--disabled');
+    imgLoading.classList.remove('img--loading');
+    imgLoading.classList.add('img--disabled');
+    btnText.classList.remove('text--disabled');
+    submitBtn.classList.remove('sales-btn--loading');
+  };
 
-      hamburgerButton.addEventListener('click', () => {
-         watchedState.menu = 'active';
-      })
+  const renderInitial = () => {
+    modalFormContainer.classList.add('modal--disabled');
+    modalContainer.classList.add('modal--disabled');
+    modalSuccessContainer.classList.add('modal--disabled');
+  };
 
-      hamburgerButtonClose.addEventListener('click', () => {
-        console.log(1)
-        watchedState.menu = 'disabled';
-      })
+  const renderLoading = () => {
+    btnText.classList.add('text--disabled');
+    imgLoading.classList.add('img--loading');
+    imgLoading.classList.remove('img--disabled');
+    submitBtn.classList.add('sales-btn--loading');
+  };
 
-      window.addEventListener('scroll', () => {
-        const scrollHeightThreshold = 75;
-        const currentScrollHeight = window.scrollY;
-        if ((currentScrollHeight > scrollHeightThreshold) && state.processState !== 'filling') {
-          headerMainContainer.classList.add('fixed');
+  const renderHamMenu = () => {
+    headerMenu.classList.remove('menu--disabled');
+    mainContent.classList.add('menu--disabled');
+    footer.classList.add('menu--disabled');
+    hamburgerButtonItems.forEach((item) => {
+      item.classList.add('menu--disabled');
+    });
+    hamburgerButtonItemsClose.classList.remove('menu--disabled');
+  };
+
+  const renderCloseHamMenu = () => {
+    headerMenu.classList.add('menu--disabled');
+    mainContent.classList.remove('menu--disabled');
+    footer.classList.remove('menu--disabled');
+    hamburgerButtonItems.forEach((item) => {
+      item.classList.remove('menu--disabled');
+    });
+    hamburgerButtonItemsClose.classList.add('menu--disabled');
+  };
+
+  const watchedState = onChange(state, (path, value) => {
+    switch (path) {
+      case 'error':
+        renderError(value);
+        break;
+      case 'isValid':
+        if (value === true) {
+          renderIsValid();
         } else {
-          headerMainContainer.classList.remove('fixed');
+          renderNotValid();
+        }
+        break;
+      case 'processState':
+        if (value === 'filling') {
+          renderModal();
+        } else if (value === 'submited') {
+          renderSubmitedForm();
+        } else if (value === 'initial') {
+          renderInitial();
+        } else if (value === 'loading') {
+          renderLoading();
+        }
+        break;
+      case 'menu':
+        if (value === 'active') {
+          renderHamMenu();
+        } else if (value === 'disabled') {
+          renderCloseHamMenu();
+        }
+        break;
+    }
+  });
+
+  const validateInput = (e) => {
+    const el = e.target.name;
+    const { value } = e.target;
+    watchedState.data[el] = value;
+    watchedState.uiState.isTouched[el] = true;
+    watchedState.error = [];
+    const getErrors = validate(watchedState.data);
+    const errors = Object.keys(getErrors);
+    if (!_.isEmpty(errors)) {
+      watchedState.error = errors;
+    }
+    watchedState.isValid = _.isEmpty(errors);
+  };
+
+  inputs.forEach((input) => {
+    input.addEventListener('input', (e) => {
+      validateInput(e);
+    });
+    input.addEventListener('click', (e) => {
+      validateInput(e);
+    });
+  });
+
+  formModal.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    watchedState.processState = 'sending';
+    const formData = new FormData(e.target);
+    const dataForSending = [];
+    data.forEach((el) => {
+      const elData = formData.get(el);
+      dataForSending.push(elData);
+    });
+    watchedState.processState = 'loading';
+    try {
+      // Simulating data sending
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      watchedState.processState = 'submited';
+      formModal.reset();
+    } catch (error) {
+      watchedState.processState = 'failed';
+      console.error(error);
+    }
+  });
+
+  salesButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      watchedState.processState = 'filling';
+      document.addEventListener('click', (e) => {
+        const isBtn = e.target.classList.contains('contact__sales-btn');
+        const isBtnText = e.target.classList.contains('sales-btn__text');
+        if (!modal.contains(e.target) && !isBtn && !isBtnText) {
+          console.log(33);
+          watchedState.processState = 'initial';
+          formModal.reset();
+          cleanAllFeedBacks();
         }
       });
+    });
+  });
 
-}
+  successBtn.addEventListener('click', () => {
+    watchedState.processState = 'initial';
+  });
+
+  hamburgerButton.addEventListener('click', () => {
+    watchedState.menu = 'active';
+  });
+
+  hamburgerButtonClose.addEventListener('click', () => {
+    watchedState.menu = 'disabled';
+  });
+
+  window.addEventListener('scroll', () => {
+    const scrollHeightThreshold = 75;
+    const currentScrollHeight = window.scrollY;
+    if ((currentScrollHeight > scrollHeightThreshold) && state.processState !== 'filling') {
+      headerMainContainer.classList.add('position--fixed');
+    } else {
+      headerMainContainer.classList.remove('position--fixed');
+    }
+  });
+};
 
 const runApp = () => {
   const formState = {
@@ -250,10 +262,11 @@ const runApp = () => {
         phone: false,
         company: false,
         website: false,
-      }
+      },
     },
     menu: 'disabled',
-  }
+  };
+
   app(formState);
 };
 
