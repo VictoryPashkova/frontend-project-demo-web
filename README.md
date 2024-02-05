@@ -1,15 +1,10 @@
-# 🚀 Welcome to your new awesome project!
+# Website demo 'Budss for Business'
 
-This project has been created using **webpack-cli**, you can now run
+## System requirements
+Node.js version - v20.4.0
 
-```
-npm run build
-```
+## How to start the project
 
-or
-
-```
-yarn build
-```
-
-to bundle your application
+- _**git clone git@github.com:VictoryPashkova/frontend-project-11.git**_ to copy the repository to your computer
+- _**npm CI**_ to install all dependencies
+- _**npx webpack serve**_ to run localhost
