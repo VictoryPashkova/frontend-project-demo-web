@@ -4,7 +4,7 @@
 
 Business card site with valid, semantic, rubber and adaptive layout on flex-box and BEM, contact form with validation on yup lib. The layout is correctly displayed in Google Chrome and Firefox. 
 
-#### Additional module - slider with animation on pure JS. 
+#### Additional module: slider with animation on pure JS. 
 
 #### Build: Webpack.
 
