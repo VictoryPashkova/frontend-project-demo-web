@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import onChange from 'on-change';
 import _ from 'lodash';
-import { setupBackgroundAnimation } from './animations';
+import { setupBackgroundAnimation, setupPageElScrollAnimation, setupInitialAnimation } from './animations';
 
 const schema = yup.object().shape({
   name: yup.string().trim().required('Name is required'),
@@ -46,6 +46,8 @@ const app = (state) => {
   const data = ['name', 'email', 'phone', 'company', 'website'];
 
   setupBackgroundAnimation(sections);
+  document.addEventListener('DOMContentLoaded', setupPageElScrollAnimation);
+  window.addEventListener('load', setupInitialAnimation);
 
   const cleanAllFeedBacks = () => {
     const allInvalidInputs = document.querySelectorAll('.input--invalid');

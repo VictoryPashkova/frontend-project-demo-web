@@ -8,6 +8,7 @@
   <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/ScrollSmoother.min.js"></script>
     <header class="header">
       <div class="header__second-container">
       <nav class="header__second-container__menu" id="menu">
@@ -79,7 +80,7 @@
           </div>
         </div>
       </section>
-      <section class="About section" data-color="#181818">
+      <section class="About section fade-in" data-color="#181818">
         <h1 class="title--h1 title--margin-left">About Budss</h1>
         <div class="About__content-container">
           <div class="About__content">
@@ -89,15 +90,15 @@
                 <p class="text--marked">our network of shoppers</p>
               </div>
             </div>
-            <div class="About__content__list">
+            <div class="About__content__list fade-in">
               <div class="About__content__list__item">
                 <div class="About__content__list__item__img">
                   <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
                     <path d="M39.4837 18.6725C41.0945 14.3194 47.2514 14.3194 48.8622 18.6725L55.3058 36.0861C55.8122 37.4547 56.8913 38.5337 58.2599 39.0401L75.6734 45.4837C80.0265 47.0945 80.0265 53.2514 75.6734 54.8622L58.2599 61.3058C56.8913 61.8122 55.8122 62.8913 55.3058 64.2599L48.8622 81.6734C47.2514 86.0265 41.0945 86.0265 39.4837 81.6734L33.0401 64.2599C32.5337 62.8913 31.4546 61.8122 30.0861 61.3058L12.6725 54.8622C8.31943 53.2514 8.31944 47.0945 12.6725 45.4837L30.0861 39.0401C31.4547 38.5337 32.5337 37.4546 33.0401 36.0861L39.4837 18.6725Z" stroke="#FFAA4C" stroke-width="10"/>
                     </svg>
                 </div>
-                <div class="About__content__list__item__title">Contactless</div>
-                <div class="About__content__list__item__text">Budss uses near field communication (NFC) for making contactless payments.</div>
+                <div class="About__content__list__item__title fade-in">Contactless</div>
+                <div class="About__content__list__item__text fade-in">Budss uses near field communication (NFC) for making contactless payments.</div>
               </div>
               <div class="About__content__list__item">
                 <div class="About__content__list__item__img img--width--heigth">
@@ -138,8 +139,8 @@
         <section class="How-works section" data-color="#181818">
           <div class="How-works__intersection"></div>
           <div class="How-works__content-container">
-            <div class="How-works__content-container__phone-container">
-              <div class="How-works__content-container__phone-container__img"><img src='./images/how_it_works_phone.svg' alt="How it works - phone"></div>
+            <div class="How-works__content-container__phone-container no-animation">
+              <div class="How-works__content-container__phone-container__img no-animation"><img src='./images/how_it_works_phone.svg' alt="How it works - phone"></div>
             </div>
             <div class="How-works__content-container__animated-text">
               <div class="How-works__content-container__animated-text__item first--margin-left">
