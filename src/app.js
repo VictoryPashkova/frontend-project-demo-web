@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 import onChange from 'on-change';
 import _ from 'lodash';
+import { setupBackgroundAnimation } from './animations';
 
 const schema = yup.object().shape({
   name: yup.string().trim().required('Name is required'),
@@ -40,8 +41,11 @@ const app = (state) => {
   const imgLoading = document.querySelector('.btn-state');
   const btnText = document.querySelector('.text-submit');
   const successBtn = document.querySelector('.modal__success-btn');
+  const sections = document.querySelectorAll('.section');
 
   const data = ['name', 'email', 'phone', 'company', 'website'];
+
+  setupBackgroundAnimation(sections);
 
   const cleanAllFeedBacks = () => {
     const allInvalidInputs = document.querySelectorAll('.input--invalid');

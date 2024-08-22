@@ -938,6 +938,7 @@ img {
   flex-direction: column;
   gap: 20px;
   color: var(--maint-text-color);
+  background-color: var(--main-bg-color);
 }
 
 .footer__container__content__logo__text {
