@@ -1,7 +1,12 @@
 import * as yup from 'yup';
 import onChange from 'on-change';
 import _ from 'lodash';
-import { setupBackgroundAnimation, setupPageElScrollAnimation, setupInitialAnimation } from './animations';
+import {
+  setupBackgroundAnimation,
+  setupPageElScrollAnimation,
+  setupInitialAnimation,
+  runScrollingMarqueeText,
+} from './animations';
 
 const schema = yup.object().shape({
   name: yup.string().trim().required('Name is required'),
@@ -18,6 +23,14 @@ const validate = (fields) => {
   } catch (e) {
     return _.keyBy(e.inner, 'path');
   }
+};
+
+const runAnimations = () => {
+  const sections = document.querySelectorAll('.section');
+  document.addEventListener('DOMContentLoaded', setupBackgroundAnimation(sections));
+  document.addEventListener('DOMContentLoaded', setupPageElScrollAnimation);
+  document.addEventListener('DOMContentLoaded', runScrollingMarqueeText);
+  window.addEventListener('load', setupInitialAnimation);
 };
 
 const app = (state) => {
@@ -41,13 +54,8 @@ const app = (state) => {
   const imgLoading = document.querySelector('.btn-state');
   const btnText = document.querySelector('.text-submit');
   const successBtn = document.querySelector('.modal__success-btn');
-  const sections = document.querySelectorAll('.section');
 
   const data = ['name', 'email', 'phone', 'company', 'website'];
-
-  setupBackgroundAnimation(sections);
-  document.addEventListener('DOMContentLoaded', setupPageElScrollAnimation);
-  window.addEventListener('load', setupInitialAnimation);
 
   const cleanAllFeedBacks = () => {
     const allInvalidInputs = document.querySelectorAll('.input--invalid');
@@ -274,6 +282,7 @@ const runApp = () => {
   };
 
   app(formState);
+  runAnimations();
 };
 
 export default runApp;

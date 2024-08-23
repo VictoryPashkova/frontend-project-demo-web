@@ -94,6 +94,7 @@ input {
 
 a {
   text-decoration: none;
+  cursor: pointer;
 }
 
 img {
@@ -172,6 +173,10 @@ img {
   transition: background-color .2s ease,border-color .2s ease,color .2s ease,fill .2s ease,transform .2s ease-in-out;
   overflow: hidden;
   will-change: transform;
+}
+
+.img-pointer {
+  cursor: pointer;
 }
 
 .contact__sales-btn:after {
@@ -435,9 +440,10 @@ img {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 4.72vw;
   align-items: flex-start;
   z-index: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .How-works__content-container__animated-text__item__text {
@@ -445,6 +451,8 @@ img {
   margin: 0;
   white-space: nowrap;
   font-weight: 700;
+  display: inline-flex;
+  margin-right: 50px;
 }
 
 .first--margin-left {
